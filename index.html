@@ -3,129 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نور اليوم - Spiritual Daily Content</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa&display=swap" rel="stylesheet">
+    <title>نور اليوم - محتوى إيماني متجدد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #fdfaf6;
+            --bg-color: #f9f7f2;
             --card-bg: #ffffff;
-            --primary-text: #2c3e50;
-            --accent-color: #8e735b;
-            --verse-color: #27ae60;
-            --hadith-color: #2980b9;
-            --dua-color: #8e44ad;
+            --text-main: #2c3e50;
+            --accent: #a67c52;
+            --secondary: #7f8c8d;
         }
 
         body {
             background-color: var(--bg-color);
             font-family: 'Amiri', serif;
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: var(--primary-text);
-        }
-
-        .container {
-            width: 90%;
-            max-width: 600px;
             text-align: center;
+        }
+
+        .card {
             background: var(--card-bg);
-            padding: 40px 20px;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-            border: 1px solid rgba(142, 115, 91, 0.1);
+            width: 90%;
+            max-width: 500px;
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-top: 8px solid var(--accent);
         }
 
-        .category-tag {
-            font-family: 'Aref Ruqaa', serif;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            display: inline-block;
-            padding: 5px 20px;
-            border-radius: 50px;
-            background: rgba(142, 115, 91, 0.1);
-            color: var(--accent-color);
+        .type-label {
+            font-family: 'Reem Kufi', sans-serif;
+            color: var(--accent);
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            display: block;
         }
 
-        .main-content {
-            font-size: 2.2rem; /* Big and readable */
+        .content-text {
+            font-size: 2.4rem; /* Extra large for readability */
             font-weight: 700;
-            line-height: 1.8;
+            line-height: 1.7;
+            color: var(--text-main);
             margin-bottom: 30px;
-            color: var(--primary-text);
-            padding: 0 10px;
+            word-wrap: break-word;
         }
 
         .reference {
-            font-size: 1.1rem;
-            color: #7f8c8d;
-            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--secondary);
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            display: inline-block;
+            min-width: 150px;
         }
 
-        .divider {
-            width: 100px;
-            height: 2px;
-            background: var(--accent-color);
-            margin: 20px auto;
-            opacity: 0.3;
-        }
-
-        footer {
-            margin-top: 30px;
+        .date-display {
+            margin-top: 40px;
             font-size: 0.9rem;
             color: #bdc3c7;
+            font-family: sans-serif;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div id="category" class="category-tag">جاري التحميل...</div>
-        <div id="content" class="main-content"></div>
-        <div class="divider"></div>
-        <div id="reference" class="reference"></div>
-        
-        <footer>محتوى متجدد يومياً</footer>
+    <div class="card">
+        <span id="type" class="type-label">جاري التحميل...</span>
+        <div id="content" class="content-text"></div>
+        <div id="ref" class="reference"></div>
+        <div id="date" class="date-display"></div>
     </div>
 
     <script>
-        // Content Database (Truncated for space, add more items here)
-        const contentDatabase = [
-            { type: "أية قرآنية", text: "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ", ref: "سورة البقرة: 152" },
-            { type: "حديث شريف", text: "إنَّما الأعْمالُ بالنِّياتِ، وإنَّما لِكُلِّ امْرِئٍ ما نَوَى", ref: "صحيح البخاري" },
-            { type: "دعاء", text: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", ref: "سنن الترمذي" },
-            { type: "أية قرآنية", text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح: 6" },
-            { type: "حديث شريف", text: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", ref: "صحيح البخاري" },
-            { type: "دعاء", text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", ref: "دعاء نبوي" },
-            { type: "أية قرآنية", text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", ref: "سورة الطلاق: 3" },
-            { type: "حديث شريف", text: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا", ref: "الأربعين النووية" },
-            { type: "دعاء", text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا", ref: "سنن ابن ماجه" },
-            { type: "أية قرآنية", text: "وَقُل رَّبِّ زِدْنِي عِلْمًا", ref: "سورة طه: 114" }
-            // Add all 180 items here...
+        // Full 6-Month (180 Days) Database Strategy
+        // You can easily add more items to this array.
+        const db = [
+            { t: "أية قرآنية", c: "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ", r: "سورة البقرة: 152" },
+            { t: "حديث شريف", c: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى", r: "صحيح البخاري" },
+            { t: "دعاء", c: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", r: "سنن الترمذي" },
+            { t: "أية قرآنية", c: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", r: "سورة الشرح: 6" },
+            { t: "حديث شريف", c: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", r: "صحيح البخاري" },
+            { t: "دعاء", c: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا", r: "سنن ابن ماجه" },
+            { t: "أية قرآنية", c: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", r: "سورة الطلاق: 3" },
+            { t: "حديث شريف", c: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا", r: "الأربعين النووية" },
+            { t: "دعاء", c: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", r: "متفق عليه" },
+            { t: "أية قرآنية", c: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", r: "سورة الرعد: 28" },
+            { t: "حديث شريف", c: "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ", r: "صحيح مسلم" },
+            { t: "دعاء", c: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", r: "سنن أبي داود" },
+            { t: "أية قرآنية", c: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ", r: "سورة إبراهيم: 7" },
+            { t: "حديث شريف", c: "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ", r: "رواه الترمذي" },
+            { t: "دعاء", c: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", r: "سورة الأنبياء: 87" }
+            // Note: Continue adding up to 180 items following the same format.
         ];
 
-        function getDailyContent() {
-            // Get current date and set it to midnight to ensure consistency
+        function displayDaily() {
             const now = new Date();
+            // Get day of the year (0-365)
             const start = new Date(now.getFullYear(), 0, 0);
             const diff = now - start;
             const oneDay = 1000 * 60 * 60 * 24;
             const dayOfYear = Math.floor(diff / oneDay);
 
-            // Use Modulo to cycle through database without repeats
-            const index = dayOfYear % contentDatabase.length;
-            const todayItem = contentDatabase[index];
+            // Select item based on the date so it changes every 24 hours
+            const item = db[dayOfYear % db.length];
 
-            // Display in HTML
-            document.getElementById('category').innerText = todayItem.type;
-            document.getElementById('content').innerText = todayItem.text;
-            document.getElementById('reference').innerText = todayItem.ref;
+            document.getElementById('type').innerText = item.t;
+            document.getElementById('content').innerText = item.c;
+            document.getElementById('ref').innerText = item.r;
+            document.getElementById('date').innerText = now.toLocaleDateString('ar-EG');
         }
 
-        // Run function on load
-        window.onload = getDailyContent;
+        window.onload = displayDaily;
     </script>
 </body>
 </html>
