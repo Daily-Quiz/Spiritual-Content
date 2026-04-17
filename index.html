@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نور اليوم - Spiritual Daily Content</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fdfaf6;
+            --card-bg: #ffffff;
+            --primary-text: #2c3e50;
+            --accent-color: #8e735b;
+            --verse-color: #27ae60;
+            --hadith-color: #2980b9;
+            --dua-color: #8e44ad;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Amiri', serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--primary-text);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            background: var(--card-bg);
+            padding: 40px 20px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 1px solid rgba(142, 115, 91, 0.1);
+        }
+
+        .category-tag {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 50px;
+            background: rgba(142, 115, 91, 0.1);
+            color: var(--accent-color);
+        }
+
+        .main-content {
+            font-size: 2.2rem; /* Big and readable */
+            font-weight: 700;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: var(--primary-text);
+            padding: 0 10px;
+        }
+
+        .reference {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .divider {
+            width: 100px;
+            height: 2px;
+            background: var(--accent-color);
+            margin: 20px auto;
+            opacity: 0.3;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="category" class="category-tag">جاري التحميل...</div>
+        <div id="content" class="main-content"></div>
+        <div class="divider"></div>
+        <div id="reference" class="reference"></div>
+        
+        <footer>محتوى متجدد يومياً</footer>
+    </div>
+
+    <script>
+        // Content Database (Truncated for space, add more items here)
+        const contentDatabase = [
+            { type: "أية قرآنية", text: "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ", ref: "سورة البقرة: 152" },
+            { type: "حديث شريف", text: "إنَّما الأعْمالُ بالنِّياتِ، وإنَّما لِكُلِّ امْرِئٍ ما نَوَى", ref: "صحيح البخاري" },
+            { type: "دعاء", text: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", ref: "سنن الترمذي" },
+            { type: "أية قرآنية", text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح: 6" },
+            { type: "حديث شريف", text: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", ref: "صحيح البخاري" },
+            { type: "دعاء", text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", ref: "دعاء نبوي" },
+            { type: "أية قرآنية", text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", ref: "سورة الطلاق: 3" },
+            { type: "حديث شريف", text: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا", ref: "الأربعين النووية" },
+            { type: "دعاء", text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا", ref: "سنن ابن ماجه" },
+            { type: "أية قرآنية", text: "وَقُل رَّبِّ زِدْنِي عِلْمًا", ref: "سورة طه: 114" }
+            // Add all 180 items here...
+        ];
+
+        function getDailyContent() {
+            // Get current date and set it to midnight to ensure consistency
+            const now = new Date();
+            const start = new Date(now.getFullYear(), 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+
+            // Use Modulo to cycle through database without repeats
+            const index = dayOfYear % contentDatabase.length;
+            const todayItem = contentDatabase[index];
+
+            // Display in HTML
+            document.getElementById('category').innerText = todayItem.type;
+            document.getElementById('content').innerText = todayItem.text;
+            document.getElementById('reference').innerText = todayItem.ref;
+        }
+
+        // Run function on load
+        window.onload = getDailyContent;
+    </script>
+</body>
+</html>
