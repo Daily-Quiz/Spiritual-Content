@@ -3,123 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نور اليوم - محتوى إيماني متجدد</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@500&display=swap" rel="stylesheet">
+    <title>نور اليوم - محتوى متجدد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Reem+Kufi&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #f9f7f2;
-            --card-bg: #ffffff;
-            --text-main: #2c3e50;
-            --accent: #a67c52;
-            --secondary: #7f8c8d;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            font-family: 'Amiri', serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-
-        .card {
-            background: var(--card-bg);
-            width: 90%;
-            max-width: 500px;
-            padding: 40px 30px;
-            border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            border-top: 8px solid var(--accent);
-        }
-
-        .type-label {
-            font-family: 'Reem Kufi', sans-serif;
-            color: var(--accent);
-            font-size: 1.4rem;
-            letter-spacing: 1px;
-            margin-bottom: 25px;
-            display: block;
-        }
-
-        .content-text {
-            font-size: 2.4rem; /* Extra large for readability */
-            font-weight: 700;
-            line-height: 1.7;
-            color: var(--text-main);
-            margin-bottom: 30px;
-            word-wrap: break-word;
-        }
-
-        .reference {
-            font-size: 1.2rem;
-            color: var(--secondary);
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-            display: inline-block;
-            min-width: 150px;
-        }
-
-        .date-display {
-            margin-top: 40px;
-            font-size: 0.9rem;
-            color: #bdc3c7;
-            font-family: sans-serif;
-        }
+        :root { --bg: #fdfaf6; --text: #2c3e50; --accent: #a67c52; }
+        body { background: var(--bg); font-family: 'Amiri', serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: white; width: 85%; max-width: 450px; padding: 40px 25px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; border-top: 6px solid var(--accent); }
+        .type { font-family: 'Reem Kufi', sans-serif; color: var(--accent); font-size: 1.2rem; margin-bottom: 20px; display: block; }
+        .content { font-size: 2.2rem; line-height: 1.6; color: var(--text); margin-bottom: 25px; min-height: 150px; display: flex; align-items: center; justify-content: center; }
+        .ref { font-size: 1.1rem; color: #7f8c8d; border-top: 1px solid #eee; padding-top: 15px; }
+        .btn { margin-top: 30px; background: var(--accent); color: white; border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-family: 'Amiri'; font-size: 1.1rem; transition: 0.3s; }
+        .btn:hover { opacity: 0.8; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <span id="type" class="type-label">جاري التحميل...</span>
-        <div id="content" class="content-text"></div>
-        <div id="ref" class="reference"></div>
-        <div id="date" class="date-display"></div>
-    </div>
+<div class="card">
+    <span id="type" class="type">جارِ التحميل...</span>
+    <div id="content" class="content"></div>
+    <div id="ref" class="ref"></div>
+    <button class="btn" onclick="showNewContent()">إظهار محتوى آخر</button>
+</div>
 
-    <script>
-        // Full 6-Month (180 Days) Database Strategy
-        // You can easily add more items to this array.
-        const db = [
-            { t: "أية قرآنية", c: "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ", r: "سورة البقرة: 152" },
-            { t: "حديث شريف", c: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى", r: "صحيح البخاري" },
-            { t: "دعاء", c: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", r: "سنن الترمذي" },
-            { t: "أية قرآنية", c: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", r: "سورة الشرح: 6" },
-            { t: "حديث شريف", c: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", r: "صحيح البخاري" },
-            { t: "دعاء", c: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا", r: "سنن ابن ماجه" },
-            { t: "أية قرآنية", c: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", r: "سورة الطلاق: 3" },
-            { t: "حديث شريف", c: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا", r: "الأربعين النووية" },
-            { t: "دعاء", c: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", r: "متفق عليه" },
-            { t: "أية قرآنية", c: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", r: "سورة الرعد: 28" },
-            { t: "حديث شريف", c: "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ", r: "صحيح مسلم" },
-            { t: "دعاء", c: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", r: "سنن أبي داود" },
-            { t: "أية قرآنية", c: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ", r: "سورة إبراهيم: 7" },
-            { t: "حديث شريف", c: "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ", r: "رواه الترمذي" },
-            { t: "دعاء", c: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", r: "سورة الأنبياء: 87" }
-            // Note: Continue adding up to 180 items following the same format.
-        ];
+<script>
+    const db = [
+        { t: "أية قرآنية", c: "فَاذْكُرُونِي أَذْكُرْكُمْ", r: "البقرة: 152" },
+        { t: "حديث شريف", c: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ", r: "البخاري" },
+        { t: "دعاء", c: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", r: "الترمذي" },
+        { t: "أية قرآنية", c: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", r: "الشرح: 6" },
+        { t: "حديث شريف", c: "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ", r: "الترمذي" }
+        // ... (Add your full 180 entries here)
+    ];
 
-        function displayDaily() {
-            const now = new Date();
-            // Get day of the year (0-365)
-            const start = new Date(now.getFullYear(), 0, 0);
-            const diff = now - start;
-            const oneDay = 1000 * 60 * 60 * 24;
-            const dayOfYear = Math.floor(diff / oneDay);
+    function showNewContent() {
+        // Get list of seen indexes from phone storage
+        let seen = JSON.parse(localStorage.getItem('seenItems')) || [];
+        
+        // If all items seen, reset the list
+        if (seen.length >= db.length) { seen = []; }
 
-            // Select item based on the date so it changes every 24 hours
-            const item = db[dayOfYear % db.length];
+        // Find an index not in the 'seen' list
+        let availableIndexes = db.map((_, i) => i).filter(i => !seen.includes(i));
+        let randomIndex = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
 
-            document.getElementById('type').innerText = item.t;
-            document.getElementById('content').innerText = item.c;
-            document.getElementById('ref').innerText = item.r;
-            document.getElementById('date').innerText = now.toLocaleDateString('ar-EG');
-        }
+        // Save this index as seen
+        seen.push(randomIndex);
+        localStorage.setItem('seenItems', JSON.stringify(seen));
 
-        window.onload = displayDaily;
-    </script>
+        // Display
+        const item = db[randomIndex];
+        document.getElementById('type').innerText = item.t;
+        document.getElementById('content').innerText = item.c;
+        document.getElementById('ref').innerText = item.r;
+    }
+
+    window.onload = showNewContent;
+</script>
 </body>
 </html>
