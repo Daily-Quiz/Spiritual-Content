@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نور اليوم - محتوى متجدد</title>
+    <title>نور اليوم</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Reem+Kufi&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #fdfaf6; --text: #2c3e50; --accent: #a67c52; }
-        body { background: var(--bg); font-family: 'Amiri', serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .card { background: white; width: 85%; max-width: 450px; padding: 40px 25px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; border-top: 6px solid var(--accent); }
-        .type { font-family: 'Reem Kufi', sans-serif; color: var(--accent); font-size: 1.2rem; margin-bottom: 20px; display: block; }
-        .content { font-size: 2.2rem; line-height: 1.6; color: var(--text); margin-bottom: 25px; min-height: 150px; display: flex; align-items: center; justify-content: center; }
-        .ref { font-size: 1.1rem; color: #7f8c8d; border-top: 1px solid #eee; padding-top: 15px; }
-        .btn { margin-top: 30px; background: var(--accent); color: white; border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-family: 'Amiri'; font-size: 1.1rem; transition: 0.3s; }
-        .btn:hover { opacity: 0.8; }
+        body { background: var(--bg); font-family: 'Amiri', serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .card { background: white; width: 100%; max-width: 500px; padding: 50px 30px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; border-top: 10px solid var(--accent); position: relative; }
+        .type { font-family: 'Reem Kufi', sans-serif; color: var(--accent); font-size: 1.4rem; margin-bottom: 30px; display: block; opacity: 0.8; }
+        .content { font-size: 2.5rem; line-height: 1.8; color: var(--text); margin-bottom: 35px; min-height: 200px; display: flex; align-items: center; justify-content: center; }
+        .ref { font-size: 1.2rem; color: #7f8c8d; border-top: 2px solid #f9f9f9; padding-top: 20px; font-weight: 400; }
+        .btn { margin-top: 40px; background: var(--accent); color: white; border: none; padding: 12px 35px; border-radius: 50px; cursor: pointer; font-family: 'Amiri'; font-size: 1.3rem; box-shadow: 0 4px 15px rgba(166, 124, 82, 0.3); transition: 0.3s; }
+        .btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -22,41 +22,70 @@
     <span id="type" class="type">جارِ التحميل...</span>
     <div id="content" class="content"></div>
     <div id="ref" class="ref"></div>
-    <button class="btn" onclick="showNewContent()">إظهار محتوى آخر</button>
+    <button class="btn" onclick="showNewContent()">آية أو حديث آخر</button>
 </div>
 
 <script>
+    // Expanded Database - Added many more to prevent the "5-item loop"
     const db = [
         { t: "أية قرآنية", c: "فَاذْكُرُونِي أَذْكُرْكُمْ", r: "البقرة: 152" },
         { t: "حديث شريف", c: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ", r: "البخاري" },
         { t: "دعاء", c: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", r: "الترمذي" },
         { t: "أية قرآنية", c: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", r: "الشرح: 6" },
-        { t: "حديث شريف", c: "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ", r: "الترمذي" }
-        // ... (Add your full 180 entries here)
+        { t: "حديث شريف", c: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", r: "البخاري" },
+        { t: "دعاء", c: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً", r: "البقرة: 201" },
+        { t: "أية قرآنية", c: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", r: "الطلاق: 3" },
+        { t: "حديث شريف", c: "الدِّينُ النَّصِيحَةُ", r: "مسلم" },
+        { t: "دعاء", c: "اللهم إنك عفو تحب العفو فاعف عني", r: "الترمذي" },
+        { t: "أية قرآنية", c: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", r: "الرعد: 28" },
+        { t: "حديث شريف", c: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ", r: "الترمذي" },
+        { t: "دعاء", c: "اللهم إني أسألك علماً نافعاً ورزقاً طيباً", r: "ابن ماجه" },
+        { t: "أية قرآنية", c: "وَقُل رَّبِّ زِدْنِي عِلْمًا", r: "طه: 114" },
+        { t: "حديث شريف", c: "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ", r: "الترمذي" },
+        { t: "دعاء", c: "لا إله إلا أنت سبحانك إني كنت من الظالمين", r: "الأنبياء: 87" },
+        { t: "أية قرآنية", c: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ", r: "إبراهيم: 7" },
+        { t: "حديث شريف", c: "كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ ثَقِيلَتَانِ فِي الْمِيزَانِ", r: "البخاري" },
+        { t: "دعاء", c: "يا حي يا قيوم برحمتك أستغيث", r: "الترمذي" },
+        { t: "أية قرآنية", c: "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ", r: "البقرة: 153" },
+        { t: "حديث شريف", c: "لا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ", r: "البخاري" },
+        { t: "دعاء", c: "اللهم أعني على ذكرك وشكرك وحسن عبادتك", r: "أبو داود" },
+        { t: "أية قرآنية", c: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", r: "الشرح: 5" },
+        { t: "حديث شريف", c: "أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ", r: "البخاري" },
+        { t: "دعاء", c: "ربِّ اشرح لي صدري ويسر لي أمري", r: "طه: 25" },
+        { t: "أية قرآنية", c: "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ", r: "البقرة: 186" },
+        { t: "حديث شريف", c: "مَنْ صَلَّى عَلَيَّ صَلَاةً صَلَّى اللَّهُ عَلَيْهِ بِهَا عَشْرًا", r: "مسلم" },
+        { t: "دعاء", c: "اللهم إني أسألك الهدى والتقى والعفاف والغنى", r: "مسلم" },
+        { t: "أية قرآنية", c: "وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا", r: "الطور: 48" },
+        { t: "حديث شريف", c: "الْبِرُّ حُسْنُ الْخُلُقِ", r: "مسلم" },
+        { t: "دعاء", c: "حسبي الله لا إله إلا هو عليه توكلت", r: "التوبة: 129" }
     ];
 
     function showNewContent() {
-        // Get list of seen indexes from phone storage
-        let seen = JSON.parse(localStorage.getItem('seenItems')) || [];
+        let seen = JSON.parse(localStorage.getItem('seen_spiritual_content')) || [];
         
-        // If all items seen, reset the list
-        if (seen.length >= db.length) { seen = []; }
+        // Check if we have seen everything. If yes, reset.
+        if (seen.length >= db.length) {
+            seen = [];
+        }
 
-        // Find an index not in the 'seen' list
-        let availableIndexes = db.map((_, i) => i).filter(i => !seen.includes(i));
-        let randomIndex = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+        // Filter out the items already seen
+        let remaining = db.map((item, index) => index).filter(index => !seen.includes(index));
 
-        // Save this index as seen
+        // Pick a random index from the remaining ones
+        let randomIndex = remaining[Math.floor(Math.random() * remaining.length)];
+
+        // Update the "Seen" list
         seen.push(randomIndex);
-        localStorage.setItem('seenItems', JSON.stringify(seen));
+        localStorage.setItem('seen_spiritual_content', JSON.stringify(seen));
 
-        // Display
+        // Update the UI
         const item = db[randomIndex];
         document.getElementById('type').innerText = item.t;
         document.getElementById('content').innerText = item.c;
         document.getElementById('ref').innerText = item.r;
     }
 
+    // Initialize on load
     window.onload = showNewContent;
 </script>
 </body>
